@@ -9,13 +9,14 @@ import './allBoards.scss';
 const hideBoards = $('#board-zone');
 
 const showSingleBoard = (e) => {
-  hideBoards.addClass('hide');
   const boardId = e.target.id;
-  let domString = '<div id="pin-zone" class="d-flex">';
+  let domString = '<div id="pin-zone" class="d-flex flex-row">';
+  domString += `<div><h2>${boardId}</h2></div>`;
   pinData.getAllPinsByBoardId(boardId)
     .then((pins) => {
+      hideBoards.empty();
       pins.forEach((pin) => {
-        domString += `<div class="card" style="width: 18rem;">
+        domString += `<div class="card single-pin" style="width: 18rem;">
         <img src="${pin.imageUrl}" class="card-img-top" alt="${pin.description}">
         <div class="card-body">
           <h5 class="card-title" id="pin-${pin.boardId}">Board</h5>
