@@ -17,4 +17,15 @@
   .single-pin {
     margin: 1em;
   }
+
+  .pin-header {
+    width: 100%;
+  }
+
+  .close {
+    color: darkred;
+    font-size: 2em;
+    position: absolute;
+    right: 25px;
+  }
 }

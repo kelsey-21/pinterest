@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import firebase from 'firebase';
 import utilities from '../../helpers/utilities';
 import 'bootstrap';
 import boardData from '../../helpers/data/boardData';
@@ -9,9 +10,11 @@ import './allBoards.scss';
 const hideBoards = $('#board-zone');
 
 const showSingleBoard = (e) => {
+  const { uid } = firebase.auth().currentUser;
   const boardId = e.target.id;
-  let domString = '<div id="pin-zone" class="d-flex flex-row">';
-  domString += `<div><h2>${boardId}</h2></div>`;
+  let domString = '<div id="pin-zone" class="container d-flex flex-wrap">';
+  domString += `<div class="row pin-header">
+    <h2>${boardId}</h2><i class="fas fa-times close"></i></div>`;
   pinData.getAllPinsByBoardId(boardId)
     .then((pins) => {
       hideBoards.empty();
@@ -25,6 +28,11 @@ const showSingleBoard = (e) => {
       });
       domString += '</div>';
       utilities.printToDom('single-board', domString);
+      $('#pin-zone').on('click', '.close', () => {
+        $('#pin-zone').empty();
+        // eslint-disable-next-line no-use-before-define
+        buildAllBoards(uid);
+      });
     })
     .catch((error) => console.error(error));
 };
