@@ -2,8 +2,10 @@
   .single-board {
     width: 200px;
     height: 200px;
-    margin: 20px;
+    margin: 10px;
     padding: 10px;
+    // position: absolute;
+    // z-index: -1;
 
     * {
       pointer-events: none;
@@ -12,7 +14,13 @@
 }
 
 #pin-zone {
-  margin: 1em;
+  margin: 0;
+  // position: absolute;
+  // z-index: -1;
+
+  * {
+    pointer-events: none;
+  }
 
   .single-pin {
     margin: 1em;
@@ -22,10 +30,18 @@
     width: 100%;
   }
 
-  .close {
+  .close-board {
     color: darkred;
     font-size: 2em;
     position: absolute;
     right: 25px;
+    z-index: 10000;
+  }
+
+  .edit-pin {
+    color: grey;
+    font-size: 1.5em;
+    position: relative;
+    right: 4px;
   }
 }

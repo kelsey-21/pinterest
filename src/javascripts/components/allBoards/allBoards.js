@@ -1,7 +1,8 @@
 import $ from 'jquery';
 import firebase from 'firebase';
-import utilities from '../../helpers/utilities';
 import 'bootstrap';
+
+import utilities from '../../helpers/utilities';
 import boardData from '../../helpers/data/boardData';
 import pinData from '../../helpers/data/pinData';
 
@@ -9,17 +10,44 @@ import './allBoards.scss';
 
 const hideBoards = $('#board-zone');
 
-const showSingleBoard = (e) => {
+const hoverHandler = (event) => {
+  const target = $(event.target);
+  console.log(target);
+  if (target.is('.single-pin')) {
+    target.children('.edit-pin').show();
+  }
+};
+
+const clickHandler = (e) => {
   const { uid } = firebase.auth().currentUser;
+  const target = e.target.id;
+  console.log(target);
+  if (target.includes('close')) {
+    $('#pin-zone').empty().remove();
+    // eslint-disable-next-line no-use-before-define
+    buildAllBoards(uid);
+  } else if (target.includes('edit')) {
+    console.log('edit');
+  }
+
+  // $('#pin-zone').on('hover', hoverEvent);
+  // $('#pin-zone').hover(hoverHandler).find('.edit-pin').hide();
+  // $('.edit-pin').click(clickHandler);
+};
+
+const showSingleBoard = (e) => {
   const boardId = e.target.id;
   let domString = '<div id="pin-zone" class="container d-flex flex-wrap">';
   domString += `<div class="row pin-header">
-    <h2>${boardId}</h2><i class="fas fa-times close"></i></div>`;
+    <h2>${boardId}</h2><a id="close-${boardId}" class="fas fa-times close-board"></a></div>`;
   pinData.getAllPinsByBoardId(boardId)
     .then((pins) => {
-      hideBoards.empty();
+      hideBoards.empty().remove();
       pins.forEach((pin) => {
-        domString += `<div class="card single-pin" style="width: 18rem;">
+        domString += `<div id="${pin.id}" class="card single-pin" style="width: 18rem;">
+        <div class="card-img-overlay">
+          <i id="edit-${pin.id}" class="fas fa-pen edit-pin"></i>
+        </div>
         <img src="${pin.imageUrl}" class="card-img-top" alt="${pin.description}">
         <div class="card-body">
           <h5 class="card-title" id="pin-${pin.boardId}">Board</h5>
@@ -28,11 +56,8 @@ const showSingleBoard = (e) => {
       });
       domString += '</div>';
       utilities.printToDom('single-board', domString);
-      $('#pin-zone').on('click', '.close', () => {
-        $('#pin-zone').empty();
-        // eslint-disable-next-line no-use-before-define
-        buildAllBoards(uid);
-      });
+      document.getElementById('pin-zone').addEventListener('click', clickHandler);
+      document.getElementById('pin-zone').addEventListener('hover', hoverHandler);
     })
     .catch((error) => console.error(error));
 };
@@ -50,7 +75,7 @@ const buildSingleBoard = (oneBoard) => {
 const buildAllBoards = (uid) => {
   boardData.getBoards(uid)
     .then((boards) => {
-      let domString = '<div class="all-boards">';
+      let domString = '<div class="container d-flex flex-wrap all-boards">';
       boards.forEach((board) => {
         domString += buildSingleBoard(board);
       });
