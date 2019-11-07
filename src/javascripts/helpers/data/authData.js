@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import $ from 'jquery';
+import allBoards from '../../components/allBoards/allBoards';
 
 const authDiv = $('#auth');
 const logoutNavbar = $('#navbar-logout');
@@ -12,13 +13,14 @@ const checkLoginStatus = () => {
     if (user) {
       logoutNavbar.removeClass('hide');
       authDiv.addClass('hide');
-      showBoards.classList.removeClass('hide');
-      welcome.classList.addClass('hide');
+      showBoards.removeClass('hide');
+      welcome.addClass('hide');
+      allBoards.buildAllBoards(user.uid);
     } else {
       logoutNavbar.addClass('hide');
       authDiv.removeClass('hide');
-      showBoards.classList.addClass('hide');
-      welcome.classList.removeClass('hide');
+      showBoards.addClass('hide');
+      welcome.removeClass('hide');
     }
   });
 };
