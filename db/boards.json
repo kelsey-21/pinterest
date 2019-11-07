@@ -1,37 +1,37 @@
 {
   "board1": {
     "name": "Home",
-    "uid": "NvaMatgRxTWHQEfjZxg9McV0hjb2",
+    "uid": "CaXNeeTgLzgvptLgRmuW4WzLK402",
     "isPrivate": false,
     "description": "decor and lifestyle"
   },
   "board2": {
     "name": "Style",
-    "uid": "NvaMatgRxTWHQEfjZxg9McV0hjb2",
+    "uid": "CaXNeeTgLzgvptLgRmuW4WzLK402",
     "isPrivate": false,
     "description": "clothing and jewelry"
   },
   "board3": {
     "name": "Plants",
-    "uid": "NvaMatgRxTWHQEfjZxg9McV0hjb2",
+    "uid": "CaXNeeTgLzgvptLgRmuW4WzLK402",
     "isPrivate": false,
     "description": "plant lady"
   },
   "board4": {
     "name": "Pets",
-    "uid": "NvaMatgRxTWHQEfjZxg9McV0hjb2",
+    "uid": "CaXNeeTgLzgvptLgRmuW4WzLK402",
     "isPrivate": false,
     "description": "meow"
   },
   "board5": {
     "name": "Movies",
-    "uid": "NvaMatgRxTWHQEfjZxg9McV0hjb2",
+    "uid": "CaXNeeTgLzgvptLgRmuW4WzLK402",
     "isPrivate": false,
     "description": "live long and prosper"
   },
   "board6": {
     "name": "Gifts",
-    "uid": "NvaMatgRxTWHQEfjZxg9McV0hjb2",
+    "uid": "CaXNeeTgLzgvptLgRmuW4WzLK402",
     "isPrivate": true,
     "description": "no peeking"
   }
