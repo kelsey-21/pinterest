@@ -1,4 +1,8 @@
 #board-zone {
+  .all-boards {
+    display: flex;
+    flex-flow: row wrap;
+  }
   .single-board {
     width: 200px;
     height: 200px;
@@ -13,10 +17,12 @@
 
 #pin-zone {
   margin: 0;
+  display: flex;
+  flex-flow: row wrap;
 
-  * {
-    pointer-events: none;
-  }
+  // * {
+  //   pointer-events: none;
+  // }
 
   .single-pin {
     margin: 1em;
@@ -29,8 +35,9 @@
   .edit-pin {
     color: grey;
     font-size: 1.5em;
-    position: relative;
+    position: absolute;
     right: 4px;
+    z-index: 10;
   }
 }
 
