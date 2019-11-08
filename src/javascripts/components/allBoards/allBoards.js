@@ -42,8 +42,8 @@ const printEditandDeleteModal = () => {
     domString += '</div></div>';
     domString += '<div class="modal-footer"><button type="button" class="btn btn-secondary">Delete Pin</button><button type="button" class="btn btn-primary">Save changes</button></div>';
     domString += '</div></div></div>';
-    console.log(domString);
-  }).catch((error) => console.log(error));
+    utilities.printToDom('modal', domString);
+  }).catch((error) => console.error(error));
 };
 
 const clickHandler = (e) => {
@@ -56,7 +56,14 @@ const clickHandler = (e) => {
     $('body').find('#board-zone').show();
   } else if (target.includes('edit')) {
     printEditandDeleteModal();
+    $('#exampleModalCenter').modal('show');
   }
+};
+
+const eventHandler = () => {
+  document.getElementById('single-board-button').addEventListener('click', clickHandler);
+  document.getElementsByClassName('edit-pin').addEventListener('click', clickHandler);
+  document.getElementById('pin-zone').addEventListener('click', hoverHandler);
 };
 
 const deletePinFromBoard = (e) => {
@@ -89,12 +96,11 @@ const showSingleBoard = (e) => {
       $('#single-board-button').find('#close-board').show();
       $('#board-zone').addClass('hide');
       $('body').find('#board-zone').hide();
-      document.getElementById('single-board-button').addEventListener('click', clickHandler);
-      $('.single-board').on('click', '.edit-pin', clickHandler);
-      document.getElementById('pin-zone').addEventListener('hover', hoverHandler);
     })
     .catch((error) => console.error(error));
 };
+
+$('body').on('click', eventHandler);
 
 const buildSingleBoard = (oneBoard) => {
   let string = '';
