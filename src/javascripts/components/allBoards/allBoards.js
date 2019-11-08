@@ -22,14 +22,17 @@ const clickHandler = (e) => {
   const { uid } = firebase.auth().currentUser;
   const target = e.target.id;
   console.log(target);
-  if (target.includes('close')) {
+  if (target === 'close-board') {
     $('#pin-zone').empty().remove();
     // eslint-disable-next-line no-use-before-define
     buildAllBoards(uid);
   } else if (target.includes('edit')) {
     console.log('edit');
   }
-
+  // if (targets.includes('close')) {
+  //   $('#pin-zone').empty().remove();
+  //   // eslint-disable-next-line no-use-before-define
+  //   buildAllBoards(uid);
   // $('#pin-zone').on('hover', hoverEvent);
   // $('#pin-zone').hover(hoverHandler).find('.edit-pin').hide();
   // $('.edit-pin').click(clickHandler);
@@ -38,8 +41,7 @@ const clickHandler = (e) => {
 const showSingleBoard = (e) => {
   const boardId = e.target.id;
   let domString = '<div id="pin-zone" class="container d-flex flex-wrap">';
-  domString += `<div class="row pin-header">
-    <h2>${boardId}</h2><a id="close-${boardId}" class="fas fa-times close-board"></a></div>`;
+  domString += `<h2 class="pin-header">${boardId}</h2>`;
   pinData.getAllPinsByBoardId(boardId)
     .then((pins) => {
       hideBoards.empty().remove();
@@ -56,6 +58,8 @@ const showSingleBoard = (e) => {
       });
       domString += '</div>';
       utilities.printToDom('single-board', domString);
+      $('#single-board-button').find('#close-board').show();
+      document.getElementById('single-board-button').addEventListener('click', clickHandler);
       document.getElementById('pin-zone').addEventListener('click', clickHandler);
       document.getElementById('pin-zone').addEventListener('hover', hoverHandler);
     })

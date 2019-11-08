@@ -1,4 +1,5 @@
 import 'bootstrap';
+import $ from 'jquery';
 import '../styles/main.scss';
 import firebase from 'firebase';
 import apiKeys from './helpers/apiKeys.json';
@@ -12,6 +13,7 @@ const init = () => {
   auth.loginButton();
   authData.checkLoginStatus();
   myNavbar.logoutEvent();
+  $('#single-board-button').find('#close-board').hide();
 };
 
 init();
