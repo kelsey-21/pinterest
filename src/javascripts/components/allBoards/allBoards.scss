@@ -1,8 +1,12 @@
 #board-zone {
+  .all-boards {
+    display: flex;
+    flex-flow: row wrap;
+  }
   .single-board {
     width: 200px;
     height: 200px;
-    margin: 20px;
+    margin: 10px;
     padding: 10px;
 
     * {
@@ -12,20 +16,37 @@
 }
 
 #pin-zone {
-  margin: 1em;
+  margin: 0;
+  display: flex;
+  flex-flow: row wrap;
+
+  // * {
+  //   pointer-events: none;
+  // }
 
   .single-pin {
     margin: 1em;
   }
 
   .pin-header {
-    width: 100%;
+    width: 80%;
   }
 
-  .close {
+  .edit-pin {
+    color: grey;
+    font-size: 1.5em;
+    position: absolute;
+    right: 4px;
+    z-index: 10;
+  }
+}
+
+#single-board-button {
+
+  .close-board {
     color: darkred;
     font-size: 2em;
-    position: absolute;
-    right: 25px;
+    float: right;
+    margin-right: 20px;
   }
 }
