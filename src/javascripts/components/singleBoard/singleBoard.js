@@ -9,8 +9,9 @@ import pinData from '../../helpers/data/pinData';
 const buildSingleBoard = (oneBoard) => {
   let string = '';
   string += `<div id="${oneBoard.id}" class="card bg-dark text-white single-board">
-  <div class="card-img-overlay">
+  <div>
     <h5 class="card-title">${oneBoard.name}</h5>
+    <a id="deleteBoard-${oneBoard.id}" class="delete-board-link" href="#">Delete board</a>
   </div>
   </div>`;
   return string;
@@ -18,10 +19,8 @@ const buildSingleBoard = (oneBoard) => {
 
 const printEditandDeleteModal = (pinId, boardId) => {
   const { uid } = firebase.auth().currentUser;
-  console.log(boardId);
   boardData.getListofBoards(uid)
     .then((boardlist) => {
-      console.log(boardlist);
       let domString = '';
       domString += `<div class="modal fade hide" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -35,7 +34,7 @@ const printEditandDeleteModal = (pinId, boardId) => {
         <div class="modal-body">
           <div class="btn-group">
             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Small button
+              Change Board
             </button>
             <div class="dropdown-menu">`;
       for (let i = 0; i < boardlist.length; i += 1) {
@@ -51,7 +50,6 @@ const printEditandDeleteModal = (pinId, boardId) => {
           .then(() => {
             // eslint-disable-next-line no-use-before-define
             showSingleBoard(boardId);
-            console.log('i deleted pin', pinId, boardId);
           });
       }));
     })
@@ -81,7 +79,7 @@ const showSingleBoard = (boardId) => {
 
 const clickMiddle = (e) => {
   const boardId = e.target.id;
-  console.log(boardId);
+  console.log('click middle', boardId);
   showSingleBoard(boardId);
 };
 
