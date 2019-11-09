@@ -4,18 +4,47 @@ import 'bootstrap';
 
 import utilities from '../../helpers/utilities';
 import boardData from '../../helpers/data/boardData';
-// import pinData from '../../helpers/data/pinData';
-// import smashData from '../../helpers/data/smash';
-// import modal from '../modal/modal';
 
 import singleBoard from '../singleBoard/singleBoard';
 
 import './allBoards.scss';
 import pinData from '../../helpers/data/pinData';
 
+const buildAllBoards = (uid) => {
+  boardData.getBoards(uid)
+    .then((boards) => {
+      let domString = '<div><button id="add-new-board" class="btn btn-outline-secondary" data-toggle="modal" data-target="#boardModalCenter">Add Board</div>';
+      domString += '<div class="container all-boards">';
+      boards.forEach((board) => {
+        domString += singleBoard.buildSingleBoard(board);
+      });
+      domString += '</div>';
+      utilities.printToDom('board-zone', domString);
+      $('#single-board-button').find('#close-board').hide();
+    })
+    .catch((error) => console.error(error));
+};
+
+const createNewBoard = (e) => {
+  e.stopImmediatePropagation();
+  const { uid } = firebase.auth().currentUser;
+  const newBoard = {
+    id: utilities.idGenerator(),
+    name: $('#board-name-input').val(),
+    isPrivate: $('#private-checkbox').is(':checked'),
+    uid,
+    description: $('#board-description').val(),
+  };
+  boardData.addNewBoard(newBoard)
+    .then(() => {
+      $('#boardModalCenter').modal('hide');
+      buildAllBoards(uid);
+    })
+    .catch((error) => console.error(error));
+};
+
 const hoverHandler = (event) => {
   const target = $(event.target);
-  console.log('hover', target);
   if (target.is('.single-pin')) {
     target.children('.edit-pin').show();
   }
@@ -24,9 +53,7 @@ const hoverHandler = (event) => {
 const clickHandler = (e) => {
   const { uid } = firebase.auth().currentUser;
   const target = e.target.id;
-  console.log('clickhandler', target);
   if (target === 'close-board') {
-    // eslint-disable-next-line no-use-before-define
     buildAllBoards(uid);
   } else {
     $('#myModal').modal('show');
@@ -42,7 +69,6 @@ const deleteBoard = (e) => {
       pinData.getAllPinsByBoardId(boardId).then((pins) => {
         pins.forEach((pin) => pinData.deletePinbyId(pin.id));
       });
-      // eslint-disable-next-line no-use-before-define
       buildAllBoards(uid);
       $('#single-board-button').find('#close-board').hide();
     })
@@ -56,23 +82,11 @@ const eventHandler = () => {
   $('#board-zone').on('click', '#pin-zone', clickHandler);
   $('#board-zone').on('hover', '.single-board', hoverHandler);
   $('#board-zone').on('click', '.single-board', singleBoard.clickMiddle);
+  $('#add-board-save').on('click', createNewBoard);
 };
 
 
 $('body').on('click', eventHandler);
 
-const buildAllBoards = (uid) => {
-  boardData.getBoards(uid)
-    .then((boards) => {
-      let domString = '<div class="container all-boards">';
-      boards.forEach((board) => {
-        domString += singleBoard.buildSingleBoard(board);
-      });
-      domString += '</div>';
-      utilities.printToDom('board-zone', domString);
-      $('#single-board-button').find('#close-board').hide();
-    })
-    .catch((error) => console.error(error));
-};
 
 export default { buildAllBoards };

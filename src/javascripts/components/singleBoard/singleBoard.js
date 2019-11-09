@@ -79,7 +79,6 @@ const showSingleBoard = (boardId) => {
 
 const clickMiddle = (e) => {
   const boardId = e.target.id;
-  console.log('click middle', boardId);
   showSingleBoard(boardId);
 };
 
