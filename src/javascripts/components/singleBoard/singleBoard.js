@@ -59,14 +59,17 @@ const printEditandDeleteModal = (pinId, boardId) => {
 const showSingleBoard = (boardId) => {
   const counter = utilities.idGenerator();
   let domString = '<div id="pin-zone" class="container">';
+  domString += `<div id="add-new-pin" class="card single-pin" style="width: 18rem;">
+        <img src="https://www.deckleedge.co.za/wp-content/uploads/2018/07/248ac10f5df4b454ad2563135a437b8bec430bbd.jpg" class="card-img-top" alt="add-image" />
+        <div class="card-body"><h5 class="card-title">Add Pin</h5></div>
+        </div>`;
   smashData.getBoardNameForPins(boardId)
     .then((pins) => {
-      domString += `<h2 class="pin-header">${pins.boardName}</h2>`;
       pins.forEach((pin) => {
         domString += `<div id="${pin.id}" class="card single-pin" style="width: 18rem;">
         <div class="card-img-overlay"><i data-toggle="modal" data-target="#exampleModalCenter" id="edit-${counter}" class="fas fa-pen edit-pin"></i></div>
         <img src="${pin.imageUrl}" class="card-img-top" alt="${pin.description}" />
-        <div class="card-body"><h5 class="card-title" id="pin-${pin.boardId}">Board</h5></div>
+        <div class="d-flex justify-content-between card-body"><h5 class="card-title" id="pin-${pin.boardId}">Add Comment</h5><i class="fas fa-plus"></i></div>
         </div>`;
         printEditandDeleteModal(`${pin.id}`, `${pin.boardId}`);
       });
