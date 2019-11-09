@@ -1,10 +1,13 @@
 import $ from 'jquery';
 import firebase from 'firebase';
 
+import picture from './add-new.png';
 import utilities from '../../helpers/utilities';
 import smashData from '../../helpers/data/smash';
 import boardData from '../../helpers/data/boardData';
 import pinData from '../../helpers/data/pinData';
+
+import './singleBoard.scss';
 
 const buildSingleBoard = (oneBoard) => {
   let string = '';
@@ -55,12 +58,13 @@ const printEditandDeleteModal = (pinId, boardId) => {
     })
     .catch((error) => console.error(error));
 };
-
+/* <i id="newpincircle-${boardId}"class="fas fa-plus-circle add-new-pin-circle"></i> */
 const showSingleBoard = (boardId) => {
   const counter = utilities.idGenerator();
   let domString = '<div id="pin-zone" class="container">';
-  domString += `<div id="add-new-pin" class="card single-pin" style="width: 18rem;">
-        <img src="https://www.deckleedge.co.za/wp-content/uploads/2018/07/248ac10f5df4b454ad2563135a437b8bec430bbd.jpg" class="card-img-top" alt="add-image" />
+  domString += `<div id="addNewPin" class="card single-pin add-single-pin" style="width: 18rem;">
+        <div id="newpin-${boardId}" class="card-img-overlay"></div>
+        <img src="${picture}" class="card-img-top" alt="add-image" />
         <div class="card-body"><h5 class="card-title">Add Pin</h5></div>
         </div>`;
   smashData.getBoardNameForPins(boardId)
@@ -81,6 +85,7 @@ const showSingleBoard = (boardId) => {
 };
 
 const clickMiddle = (e) => {
+  e.stopImmediatePropagation();
   const boardId = e.target.id;
   showSingleBoard(boardId);
 };

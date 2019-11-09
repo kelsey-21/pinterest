@@ -1,14 +1,14 @@
 import $ from 'jquery';
 import firebase from 'firebase';
 import 'bootstrap';
+import './allBoards.scss';
 
 import utilities from '../../helpers/utilities';
 import boardData from '../../helpers/data/boardData';
+import pinData from '../../helpers/data/pinData';
 
 import singleBoard from '../singleBoard/singleBoard';
 
-import './allBoards.scss';
-import pinData from '../../helpers/data/pinData';
 
 const buildAllBoards = (uid) => {
   boardData.getBoards(uid)
@@ -43,6 +43,22 @@ const createNewBoard = (e) => {
     .catch((error) => console.error(error));
 };
 
+const deleteBoard = (e) => {
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  const { uid } = firebase.auth().currentUser;
+  const boardId = e.target.id.split('deleteBoard-')[1];
+  boardData.deleteBoardsbyId(boardId)
+    .then(() => {
+      pinData.getAllPinsByBoardId(boardId).then((pins) => {
+        pins.forEach((pin) => pinData.deletePinbyId(pin.id));
+      });
+      buildAllBoards(uid);
+      $('#single-board-button').find('#close-board').hide();
+    })
+    .catch((error) => console.error(error));
+};
+
 const hoverHandler = (event) => {
   const target = $(event.target);
   if (target.is('.single-pin')) {
@@ -60,21 +76,10 @@ const clickHandler = (e) => {
   }
 };
 
-const deleteBoard = (e) => {
-  e.preventDefault();
-  const { uid } = firebase.auth().currentUser;
-  const boardId = e.target.id.split('deleteBoard-')[1];
-  boardData.deleteBoardsbyId(boardId)
-    .then(() => {
-      pinData.getAllPinsByBoardId(boardId).then((pins) => {
-        pins.forEach((pin) => pinData.deletePinbyId(pin.id));
-      });
-      buildAllBoards(uid);
-      $('#single-board-button').find('#close-board').hide();
-    })
-    .catch((error) => console.error(error));
+const createNewPin = (e) => {
+  const target = e.target.id;
+  console.log('new pin', target);
 };
-
 
 const eventHandler = () => {
   $('#board-zone').on('click', '.delete-board-link', deleteBoard);
@@ -83,6 +88,7 @@ const eventHandler = () => {
   $('#board-zone').on('hover', '.single-board', hoverHandler);
   $('#board-zone').on('click', '.single-board', singleBoard.clickMiddle);
   $('#add-board-save').on('click', createNewBoard);
+  $('#pin-zone').on('click', '.add-single-pin', createNewPin);
 };
 
 
