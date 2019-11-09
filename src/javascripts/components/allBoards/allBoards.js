@@ -4,7 +4,7 @@ import 'bootstrap';
 
 import utilities from '../../helpers/utilities';
 import boardData from '../../helpers/data/boardData';
-import pinData from '../../helpers/data/pinData';
+// import pinData from '../../helpers/data/pinData';
 // import smashData from '../../helpers/data/smash';
 // import modal from '../modal/modal';
 
@@ -21,13 +21,12 @@ const hoverHandler = (event) => {
 };
 
 const clickHandler = (e) => {
-  // const { uid } = firebase.auth().currentUser;
+  const { uid } = firebase.auth().currentUser;
   const target = e.target.id;
   console.log(target);
   if (target === 'close-board') {
-    $('#single-board').toggleClass('hide');
-    $('#single-board-button').find('#close-board').hide();
-    $('body').find('#board-zone').show();
+    // eslint-disable-next-line no-use-before-define
+    buildAllBoards(uid);
   } else {
     $('#myModal').modal('show');
   }
@@ -39,17 +38,15 @@ const eventHandler = () => {
   document.getElementById('pin-zone').addEventListener('click', hoverHandler);
 };
 
-const deletePinFromBoard = (e) => {
-  e.preventDefault();
-  const { uid } = firebase.auth().currentUser;
-  pinData.deletePinData(e.target.id).then(() => {
-    // eslint-disable-next-line no-use-before-define
-    buildAllBoards(uid);
-    $('#single-board-button').find('#close-board').show();
-    $('#board-zone').toggleClass('hide');
-    $('body').find('#board-zone').hide();
-  }).catch((error) => console.error(error));
-};
+// const deletePinFromBoard = (e) => {
+//   e.preventDefault();
+//   // const { uid } = firebase.auth().currentUser;
+//   pinData.deletePinData(e.target.id).then(() => {
+//     // eslint-disable-next-line no-use-before-define
+//     singleBoard.showSingleBoard();
+//     $('#single-board-button').find('#close-board').show();
+//   }).catch((error) => console.error(error));
+// };
 
 $('body').on('click', eventHandler);
 
@@ -62,10 +59,10 @@ const buildAllBoards = (uid) => {
       });
       domString += '</div>';
       utilities.printToDom('board-zone', domString);
-      $('#board-zone').on('click', '.single-board', singleBoard.showSingleBoard);
+      $('#board-zone').on('click', '.single-board', singleBoard.clickMiddle);
       $('#single-board-button').find('#close-board').hide();
     })
     .catch((error) => console.error(error));
 };
 
-export default { buildAllBoards, deletePinFromBoard };
+export default { buildAllBoards };

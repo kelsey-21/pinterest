@@ -50,18 +50,16 @@ const printEditandDeleteModal = (pinId, boardId) => {
         pinData.deletePinbyId(pinId)
           .then(() => {
             // eslint-disable-next-line no-use-before-define
-            showSingleBoard(pinId, boardId);
-            $('#board-zone').addClass('hide');
-            $('#pin-zone').removeClass('hide');
+            showSingleBoard(boardId);
+            console.log('i deleted pin', pinId, boardId);
           });
-      }))
-        .catch((error) => console.error(error));
-    });
+      }));
+    })
+    .catch((error) => console.error(error));
 };
 
-const showSingleBoard = (e) => {
+const showSingleBoard = (boardId) => {
   const counter = utilities.idGenerator();
-  const boardId = e.target.id;
   let domString = '<div id="pin-zone" class="container">';
   smashData.getBoardNameForPins(boardId)
     .then((pins) => {
@@ -72,12 +70,24 @@ const showSingleBoard = (e) => {
         <img src="${pin.imageUrl}" class="card-img-top" alt="${pin.description}" />
         <div class="card-body"><h5 class="card-title" id="pin-${pin.boardId}">Board</h5></div>
         </div>`;
-        printEditandDeleteModal(`${pin.id}`, `${pins.boardId}`);
+        printEditandDeleteModal(`${pin.id}`, `${pin.boardId}`);
       });
       domString += '</div>';
-      utilities.printToDom('single-board', domString);
+      $('#single-board-button').find('#close-board').show();
+      utilities.printToDom('board-zone', domString);
     })
     .catch((error) => console.error(error));
 };
 
-export default { buildSingleBoard, showSingleBoard, printEditandDeleteModal };
+const clickMiddle = (e) => {
+  const boardId = e.target.id;
+  console.log(boardId);
+  showSingleBoard(boardId);
+};
+
+export default {
+  buildSingleBoard,
+  showSingleBoard,
+  printEditandDeleteModal,
+  clickMiddle,
+};
