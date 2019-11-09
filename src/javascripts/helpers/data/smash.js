@@ -14,7 +14,6 @@ const getBoardNameForPins = (boardId) => new Promise((resolve, reject) => {
             const getPinBoard = boards.find((x) => x.id === newPin.boardId);
             if (getPinBoard) {
               newPin.boardName = getPinBoard.name;
-              console.log(newPin);
             }
             newPins.push(newPin);
           });
