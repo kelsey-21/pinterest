@@ -38,6 +38,9 @@
     position: absolute;
     right: 4px;
     z-index: 10;
+    &:hover {
+      color: rgb(54, 54, 54);
+    }
   }
 }
 

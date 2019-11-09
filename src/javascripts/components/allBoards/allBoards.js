@@ -20,6 +20,7 @@ const hoverHandler = (event) => {
 const printEditandDeleteModal = () => {
   const { uid } = firebase.auth().currentUser;
   boardData.getListofBoards(uid).then((boardlist) => {
+    console.log(boardlist);
     let domString = '';
     domString += `<div class="modal fade hide" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -54,15 +55,14 @@ const clickHandler = (e) => {
     $('#single-board').addClass('hide');
     $('#single-board-button').find('#close-board').hide();
     $('body').find('#board-zone').show();
-  } else if (target.includes('edit')) {
-    printEditandDeleteModal();
-    $('#exampleModalCenter').modal('show');
+  } else {
+    $('#myModal').modal('show');
   }
 };
 
 const eventHandler = () => {
   document.getElementById('single-board-button').addEventListener('click', clickHandler);
-  document.getElementsByClassName('edit-pin').addEventListener('click', clickHandler);
+  document.getElementById('pin-zone').addEventListener('click', clickHandler);
   document.getElementById('pin-zone').addEventListener('click', hoverHandler);
 };
 
@@ -93,6 +93,7 @@ const showSingleBoard = (e) => {
       });
       domString += '</div>';
       utilities.printToDom('single-board', domString);
+      printEditandDeleteModal();
       $('#single-board-button').find('#close-board').show();
       $('#board-zone').addClass('hide');
       $('body').find('#board-zone').hide();

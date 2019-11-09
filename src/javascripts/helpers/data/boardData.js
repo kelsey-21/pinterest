@@ -18,8 +18,8 @@ const getBoards = (uid) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-const getListofBoards = (uid) => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/boards.json?orderBy="uid"&equalTo="${uid}"`)
+const getListofBoards = () => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/boards.json`)
     .then((response) => {
       const allBoards = response.data;
       const boards = [];
@@ -27,11 +27,14 @@ const getListofBoards = (uid) => new Promise((resolve, reject) => {
         allBoards[boardId].id = boardId;
         boards.push(allBoards[boardId]);
       });
-      const boardNames = boards.map((b) => b.names);
+      const boardNames = boards.map((b) => b.name);
+      // const newBoards = boards.map(({ name }) => name);
       resolve(boardNames);
     })
     .catch((error) => reject(error));
 });
+
+getListofBoards();
 
 const deleteBoardsbyId = (boardId) => {
   axios.delete(`${baseUrl}/boards/${boardId}.json`);
