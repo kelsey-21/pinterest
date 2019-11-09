@@ -58,12 +58,12 @@ const printEditandDeleteModal = (pinId, boardId) => {
     })
     .catch((error) => console.error(error));
 };
-/* <i id="newpincircle-${boardId}"class="fas fa-plus-circle add-new-pin-circle"></i> */
+
 const showSingleBoard = (boardId) => {
   const counter = utilities.idGenerator();
   let domString = '<div id="pin-zone" class="container">';
   domString += `<div id="addNewPin" class="card single-pin add-single-pin" style="width: 18rem;">
-        <div id="newpin-${boardId}" class="card-img-overlay"></div>
+        <div id="newpin-${boardId}" data-toggle="modal" data-target="#newPinModal" class="card-img-overlay"></div>
         <img src="${picture}" class="card-img-top" alt="add-image" />
         <div class="card-body"><h5 class="card-title">Add Pin</h5></div>
         </div>`;

@@ -8,6 +8,7 @@ import boardData from '../../helpers/data/boardData';
 import pinData from '../../helpers/data/pinData';
 
 import singleBoard from '../singleBoard/singleBoard';
+import createNewPin from '../singleBoard/createNewPin';
 
 
 const buildAllBoards = (uid) => {
@@ -76,11 +77,6 @@ const clickHandler = (e) => {
   }
 };
 
-const createNewPin = (e) => {
-  const target = e.target.id;
-  console.log('new pin', target);
-};
-
 const eventHandler = () => {
   $('#board-zone').on('click', '.delete-board-link', deleteBoard);
   document.getElementById('single-board-button').addEventListener('click', clickHandler);
@@ -88,7 +84,7 @@ const eventHandler = () => {
   $('#board-zone').on('hover', '.single-board', hoverHandler);
   $('#board-zone').on('click', '.single-board', singleBoard.clickMiddle);
   $('#add-board-save').on('click', createNewBoard);
-  $('#pin-zone').on('click', '.add-single-pin', createNewPin);
+  $('#pin-zone').on('click', '.add-single-pin', createNewPin.createNewPinModal);
 };
 
 
