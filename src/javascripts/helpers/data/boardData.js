@@ -34,8 +34,6 @@ const getListofBoards = () => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-getListofBoards();
-
 const deleteBoardsbyId = (boardId) => {
   axios.delete(`${baseUrl}/boards/${boardId}.json`);
   pinData.getAllPinsByBoardId(boardId).then((pins) => {
