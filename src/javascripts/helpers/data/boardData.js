@@ -22,13 +22,12 @@ const getListofBoards = () => new Promise((resolve, reject) => {
     .then((response) => {
       const allBoards = response.data;
       const boards = [];
+      // const boardObj = {};
       Object.keys(allBoards).forEach((boardId) => {
         allBoards[boardId].id = boardId;
         boards.push(allBoards[boardId]);
       });
-      const boardNames = boards.map((b) => b.name);
-      // const newBoards = boards.map(({ name }) => name);
-      resolve(boardNames);
+      resolve(boards);
     })
     .catch((error) => reject(error));
 });
