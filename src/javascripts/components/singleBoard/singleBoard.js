@@ -20,7 +20,34 @@ const buildSingleBoard = (oneBoard) => {
   return string;
 };
 
-const printEditandDeleteModal = (pinId, boardId) => {
+const deletePin = (pinId, boardId) => {
+  console.log('delete works?');
+  pinData.deletePinbyId(pinId)
+    .then(() => {
+      // eslint-disable-next-line no-use-before-define
+      showSingleBoard(boardId);
+    })
+    .catch((error) => console.error(error));
+};
+
+const ModalPinClick = (e) => {
+  if (e.target.id === '') {
+    // update
+    $('#exampleModalCenter').modal('hide');
+  } else {
+    const pinId = e.target.id.split('-split-')[0];
+    const boardId = e.target.id.split('-split-')[1];
+    console.log('delete this pin and board', pinId, boardId);
+    deletePin(pinId, boardId);
+    $('#exampleModalCenter').modal('hide');
+  }
+};
+
+const printEditandDeleteModal = (e) => {
+  e.stopImmediatePropagation();
+  const boardId = e.target.getAttribute('data-boardId');
+  const pinId = e.target.getAttribute('data-pinId');
+  console.log('source', pinId, boardId);
   const { uid } = firebase.auth().currentUser;
   boardData.getListofBoards(uid)
     .then((boardlist) => {
@@ -44,23 +71,21 @@ const printEditandDeleteModal = (pinId, boardId) => {
         domString += `<a class="dropdown-item" href="#">${boardlist[i]}</a>`;
       }
       domString += '</div></div>';
-      domString += `<div class="modal-footer"><button id="${pinId}" data-dismiss="modal" type="button" class="btn btn-secondary delete-pin">Delete Pin
-      </button><button type="button" class="btn btn-primary">Save changes</button></div>`;
+      domString += `<div id="modal-buttons-div" class="modal-footer">
+        <button id="${pinId}-split-${boardId}" data-dismiss="modal" type="button" class="btn btn-secondary delete-pin">Delete Pin</button>
+        <button type="button" class="btn btn-primary save-changes">Save changes</button>
+        </div>`;
       domString += '</div></div></div>';
       utilities.printToDom('modal', domString);
-      $('.delete-pin').on('click', (() => {
-        pinData.deletePinbyId(pinId)
-          .then(() => {
-            // eslint-disable-next-line no-use-before-define
-            showSingleBoard(boardId);
-          });
-      }));
+      $('#exampleModalCenter').modal('show');
+      $('#modal-buttons-div').on('click', '.delete-pin', ModalPinClick);
+      $('#modal-buttons-div').on('click', '.save-changes', ModalPinClick);
     })
     .catch((error) => console.error(error));
 };
 
 const showSingleBoard = (boardId) => {
-  const counter = utilities.idGenerator();
+  // const counter = utilities.idGenerator();
   let domString = '<div id="pin-zone" class="container">';
   domString += `<div id="addNewPin" class="card single-pin add-single-pin" style="width: 18rem;">
         <div id="newpin-${boardId}" data-toggle="modal" data-target="#newPinModal" class="card-img-overlay"></div>
@@ -70,16 +95,19 @@ const showSingleBoard = (boardId) => {
   smashData.getBoardNameForPins(boardId)
     .then((pins) => {
       pins.forEach((pin) => {
-        domString += `<div id="${pin.id}" class="card single-pin" style="width: 18rem;">
-        <div class="card-img-overlay"><i data-toggle="modal" data-target="#exampleModalCenter" id="edit-${counter}" class="fas fa-pen edit-pin"></i></div>
-        <img src="${pin.imageUrl}" class="card-img-top" alt="${pin.description}" />
-        <div class="d-flex justify-content-between card-body"><h5 class="card-title" id="pin-${pin.boardId}">Add Comment</h5><i class="fas fa-plus"></i></div>
+        domString += `
+        <div id="${pin.id}" class="card single-pin" style="width: 18rem;">
+          <div class="card-img-overlay"><i data-toggle="modal" data-target="#exampleModalCenter" id="${pin.boardId}-split-${pin.id}" data-pinId=${pin.id} data-boardId=${pin.boardId} class="fas fa-pen edit-pin"></i>
+          </div>
+          <img src="${pin.imageUrl}" class="card-img-top" alt="${pin.description}" />
+          <div class="d-flex justify-content-between card-body"><h5 class="card-title" id="pin-${pin.boardId}">Add Comment</h5><i class="fas fa-plus"></i>
+          </div>
         </div>`;
-        printEditandDeleteModal(`${pin.id}`, `${pin.boardId}`);
       });
       domString += '</div>';
       $('#single-board-button').find('#close-board').show();
       utilities.printToDom('board-zone', domString);
+      $('.single-pin').on('click', '.edit-pin', printEditandDeleteModal);
     })
     .catch((error) => console.error(error));
 };
