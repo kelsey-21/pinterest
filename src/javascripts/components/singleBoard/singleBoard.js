@@ -1,10 +1,13 @@
 import $ from 'jquery';
 import firebase from 'firebase';
 
+import picture from './add-new.png';
 import utilities from '../../helpers/utilities';
 import smashData from '../../helpers/data/smash';
 import boardData from '../../helpers/data/boardData';
 import pinData from '../../helpers/data/pinData';
+
+import './singleBoard.scss';
 
 const buildSingleBoard = (oneBoard) => {
   let string = '';
@@ -59,14 +62,18 @@ const printEditandDeleteModal = (pinId, boardId) => {
 const showSingleBoard = (boardId) => {
   const counter = utilities.idGenerator();
   let domString = '<div id="pin-zone" class="container">';
+  domString += `<div id="addNewPin" class="card single-pin add-single-pin" style="width: 18rem;">
+        <div id="newpin-${boardId}" data-toggle="modal" data-target="#newPinModal" class="card-img-overlay"></div>
+        <img src="${picture}" class="card-img-top" alt="add-image" />
+        <div class="card-body"><h5 class="card-title">Add Pin</h5></div>
+        </div>`;
   smashData.getBoardNameForPins(boardId)
     .then((pins) => {
-      domString += `<h2 class="pin-header">${pins.boardName}</h2>`;
       pins.forEach((pin) => {
         domString += `<div id="${pin.id}" class="card single-pin" style="width: 18rem;">
         <div class="card-img-overlay"><i data-toggle="modal" data-target="#exampleModalCenter" id="edit-${counter}" class="fas fa-pen edit-pin"></i></div>
         <img src="${pin.imageUrl}" class="card-img-top" alt="${pin.description}" />
-        <div class="card-body"><h5 class="card-title" id="pin-${pin.boardId}">Board</h5></div>
+        <div class="d-flex justify-content-between card-body"><h5 class="card-title" id="pin-${pin.boardId}">Add Comment</h5><i class="fas fa-plus"></i></div>
         </div>`;
         printEditandDeleteModal(`${pin.id}`, `${pin.boardId}`);
       });
@@ -78,8 +85,8 @@ const showSingleBoard = (boardId) => {
 };
 
 const clickMiddle = (e) => {
+  e.stopImmediatePropagation();
   const boardId = e.target.id;
-  console.log('click middle', boardId);
   showSingleBoard(boardId);
 };
 
