@@ -5,7 +5,6 @@ import singleBoard from './singleBoard';
 
 
 const createNewPin = (boardId) => {
-  // e.stopImmediatePropagation();
   const newPin = {
     name: $('#new-pin-name').val(),
     imageUrl: $('#new-pin-url').val(),
@@ -13,16 +12,19 @@ const createNewPin = (boardId) => {
     categoryId: '',
     boardId,
   };
-  console.log(newPin);
   $('#newPinModal').modal('hide');
   pinData.addNewPin(newPin);
   singleBoard.showSingleBoard(boardId);
 };
 
+const createNewPinClick = (e) => {
+  e.stopImmediatePropagation();
+  const target = e.target.id;
+  createNewPin(target);
+};
+
 const createNewPinModal = (e) => {
-  const boardIdtest = $(e.target).closest('id');
   const boardId = e.target.id.split('newpin-')[1];
-  console.log(boardIdtest);
   let domString = '';
   domString += `
   <div class="modal fade" id="newPinModal" tabindex="-1" role="dialog" aria-labelledby="newPinLabel" aria-hidden="true">
@@ -46,15 +48,15 @@ const createNewPinModal = (e) => {
       </div>
         </form>
         </div>
-        <div class="modal-footer">
+        <div id="save-new-pin-button" class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="save-new-pin-button" type="button" class="btn btn-primary save-pin">Save changes</button>
+          <button id="${boardId}" type="button" class="btn btn-primary save-pin">Save changes</button>
         </div>
       </div>
     </div>
   </div>`;
   utilities.printToDom('newPin-modal', domString);
-  $('#save-new-pin-button').on('click', '.save-pin', createNewPin(boardId));
+  $('#save-new-pin-button').on('click', '.save-pin', createNewPinClick);
 };
 
 export default { createNewPinModal };
