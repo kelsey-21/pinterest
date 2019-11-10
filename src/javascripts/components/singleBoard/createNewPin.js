@@ -18,13 +18,14 @@ const createNewPin = (boardId) => {
 };
 
 const createNewPinClick = (e) => {
-  e.stopImmediatePropagation();
-  const target = e.target.id;
+  const target = e.target.id.split('createnewpin-')[1];
+  console.log('in between', target);
   createNewPin(target);
 };
 
 const createNewPinModal = (e) => {
   const boardId = e.target.id.split('newpin-')[1];
+  console.log('create pin', boardId);
   let domString = '';
   domString += `
   <div class="modal fade" id="newPinModal" tabindex="-1" role="dialog" aria-labelledby="newPinLabel" aria-hidden="true">
@@ -50,7 +51,7 @@ const createNewPinModal = (e) => {
         </div>
         <div id="save-new-pin-button" class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="${boardId}" type="button" class="btn btn-primary save-pin">Save changes</button>
+          <button id="createnewpin-${boardId}" type="button" class="btn btn-primary save-pin">Save changes</button>
         </div>
       </div>
     </div>
