@@ -8,7 +8,7 @@ import boardData from '../../helpers/data/boardData';
 import pinData from '../../helpers/data/pinData';
 
 import singleBoard from '../singleBoard/singleBoard';
-import createNewPin from '../singleBoard/createNewPin';
+// import createNewPin from '../singleBoard/createNewPin';
 
 
 const buildAllBoards = (uid) => {
@@ -84,7 +84,6 @@ const eventHandler = () => {
   $('#board-zone').on('hover', '.single-board', hoverHandler);
   $('#board-zone').on('click', '.single-board', singleBoard.clickMiddle);
   $('#add-board-save').on('click', createNewBoard);
-  $('#pin-zone').on('click', '.add-single-pin', createNewPin.createNewPinModal);
 };
 
 
