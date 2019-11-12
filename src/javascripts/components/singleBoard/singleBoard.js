@@ -31,23 +31,20 @@ const deletePin = (pinId, boardId) => {
     .catch((error) => console.error(error));
 };
 
-const updatePin = (e) => {
-  const pinId = e.target.id.split('-save-')[0];
-  const newBoardId = e.target.getAttribute('data-set-id');
-  console.log('update pin', pinId, newBoardId);
-  pinData.preUpdatePin(pinId, newBoardId);
-};
-
 const ModalPinClick = (e) => {
-  if (e.target.id.includes('save')) {
-    console.log('coming in here');
-    $('.dropdown-item-update').on('click', '.dropdown-item', updatePin);
-    $('#exampleModalCenter').modal('hide');
-  } else {
+  if (e.target.id.includes('split')) {
     const pinId = e.target.id.split('-split-')[0];
     const boardId = e.target.id.split('-split-')[1];
     deletePin(pinId, boardId);
     $('#exampleModalCenter').modal('hide');
+  } else {
+    $('#exampleModalCenter').modal('hide');
+    const pinId = e.target.id.split('-save-')[0];
+    const newBoard = $('input[name=board-names]:checked').val();
+    const newBoardId = newBoard.split('-value-')[1];
+    pinData.preUpdatePin(pinId, newBoardId);
+    // eslint-disable-next-line no-use-before-define
+    showSingleBoard(newBoardId);
   }
 };
 
@@ -69,15 +66,16 @@ const printEditandDeleteModal = (e) => {
           </button>
         </div>
         <div class="modal-body">
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Change Board
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">`;
+        <h5>Change Board</h5>
+        <div id="board-name-radios" class="form-check">`;
       for (let i = 0; i < boards.length; i += 1) {
-        domString += `<button class="dropdown-item dropdown-item-update" type="button" data-set-id=${boards[i].id}>${boards[i].name}</button>`;
+        domString += `
+              <div id="board-radio-inner"><input class="form-check-input" type="radio" name="board-names" id="radio-${boards[i].id}" value="${pinId}-value-${boards[i].id}" checked>
+            <label class="form-check-label" for="radio-${boards[i].id}">
+              ${boards[i].name}</label></input></div>`;
       }
-      domString += '</div></div>';
+      domString += '</div>';
+      domString += '</div>';
       domString += `<div id="modal-buttons-div" class="modal-footer">
         <button id="${pinId}-split-${boardId}" data-dismiss="modal" type="button" class="btn btn-secondary delete-pin">Delete Pin</button>
         <button id="${pinId}-save-${boardId}" type="button" class="btn btn-primary save-changes">Save changes</button>
@@ -108,13 +106,11 @@ const createNewPin = (boardId) => {
 
 const createNewPinClick = (e) => {
   const target = e.target.id.split('createnewpin-')[1];
-  console.log('in between', target);
   createNewPin(target);
 };
 
 const createNewPinModal = (e) => {
   const boardId = e.target.id.split('newpin-')[1];
-  console.log('create pin', boardId);
   let domString = '';
   domString += `
   <div class="modal fade" id="newPinModal" tabindex="-1" role="dialog" aria-labelledby="newPinLabel" aria-hidden="true">

@@ -30,13 +30,13 @@
 
 #pin-zone {
   .edit-pin {
-    color: grey;
+    color: lightgray;
     font-size: 1.5em;
     position: absolute;
     right: 4px;
     z-index: 10;
     &:hover {
-      color: rgb(54, 54, 54);
+      color: grey;
     }
   }
 }

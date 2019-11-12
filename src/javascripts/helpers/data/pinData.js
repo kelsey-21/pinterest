@@ -24,7 +24,7 @@ const addNewPin = (newPin) => axios.post(`${baseUrl}/pins.json`, newPin);
 const updatePin = (pinId, updatedPin) => axios.put(`${baseUrl}/pins/${pinId}.json`, updatedPin);
 
 const preUpdatePin = (pinId, newBoardId) => new Promise((resolve, reject) => {
-  axios.get(`${baseUrl}/pins.json?orderBy="pinId"&equalTo="${pinId}"`)
+  axios.get(`${baseUrl}/pins/${pinId}.json`)
     .then((response) => {
       const pinObj = response.data;
       pinObj.boardId = newBoardId;
