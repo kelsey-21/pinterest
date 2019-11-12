@@ -15,7 +15,7 @@ const buildSingleBoard = (oneBoard) => {
   let string = '';
   string += `<div id="${oneBoard.id}" class="card bg-dark text-white single-board">
   <div>
-    <h5 class="card-title">${oneBoard.name}</h5>
+    <h5 contentEditable="true" class="card-title">${oneBoard.name}</h5>
     <a id="deleteBoard-${oneBoard.id}" class="delete-board-link" href="#">Delete board</a>
   </div>
   </div>`;
