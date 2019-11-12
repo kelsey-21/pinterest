@@ -14,8 +14,10 @@ import singleBoard from '../singleBoard/singleBoard';
 const buildAllBoards = (uid) => {
   boardData.getBoards(uid)
     .then((boards) => {
-      let domString = '<div><button id="add-new-board" class="btn btn-outline-secondary" data-toggle="modal" data-target="#boardModalCenter">Add Board</div>';
+      let domString = '';
       domString += '<div class="container all-boards">';
+      domString += '<div id="add-new-board2" class="card text-white single-board-add" data-toggle="modal" data-target="#boardModalCenter"><div>';
+      domString += '<h5 class="card-title">Add Board</h5></div></div>';
       boards.forEach((board) => {
         domString += singleBoard.buildSingleBoard(board);
       });
