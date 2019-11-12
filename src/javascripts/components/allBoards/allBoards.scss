@@ -2,6 +2,9 @@
   .all-boards {
     display: flex;
     flex-flow: row wrap;
+    * {
+      pointer-events: auto;
+    }
   }
   .single-board, .single-board-add {
     width: 200px;
