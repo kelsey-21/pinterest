@@ -42,9 +42,8 @@ const ModalPinClick = (e) => {
     const pinId = e.target.id.split('-save-')[0];
     const newBoard = $('input[name=board-names]:checked').val();
     const newBoardId = newBoard.split('-value-')[1];
-    pinData.preUpdatePin(pinId, newBoardId);
     // eslint-disable-next-line no-use-before-define
-    showSingleBoard(newBoardId);
+    pinData.preUpdatePin(pinId, newBoardId).then(() => showSingleBoard(newBoardId)).catch((error) => console.error(error));
   }
 };
 
