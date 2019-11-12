@@ -2,7 +2,7 @@ import $ from 'jquery';
 import firebase from 'firebase';
 import 'bootstrap';
 
-import picture from './add-new.png';
+import picture from './add-new.jpg';
 import utilities from '../../helpers/utilities';
 import smashData from '../../helpers/data/smash';
 import boardData from '../../helpers/data/boardData';
@@ -145,15 +145,16 @@ const createNewPinModal = (e) => {
 };
 
 const showSingleBoard = (boardId) => {
-  console.log('add pin', boardId);
-  let domString = '<div id="pin-zone" class="container">';
-  domString += `<div id="addNewPin" class="card single-pin add-single-pin" style="width: 18rem;">
-        <div id="newpin-${boardId}" data-toggle="modal" data-target="#newPinModal" class="card-img-overlay"></div>
-        <img src="${picture}" class="card-img-top" alt="add-image" />
-        <div class="card-body"><h5 class="card-title">Add Pin</h5></div>
-        </div>`;
+  const image = picture;
   smashData.getBoardNameForPins(boardId)
     .then((pins) => {
+      console.log(boardId);
+      let domString = '<div id="pin-zone" class="container">';
+      domString += `<div id="addNewPin" class="card single-pin add-single-pin" style="width: 18rem;">
+          <div id="newpin-${boardId}" data-toggle="modal" data-target="#newPinModal" class="card-img-overlay"></div>
+          <img src="${image}" class="card-img-top" alt="add-image" />
+          <div class="card-body"><h5 class="card-title card-title-add-pin">Add Pin</h5></div>
+          </div>`;
       pins.forEach((pin) => {
         domString += `
         <div id="${pin.id}" class="card single-pin" style="width: 18rem;">

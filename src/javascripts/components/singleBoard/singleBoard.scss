@@ -16,3 +16,59 @@
     padding: 2px 2px 2px 10px;
   }
 }
+
+
+#pin-zone {
+  .edit-pin {
+    color: lightgray;
+    font-size: 1.5em;
+    position: absolute;
+    right: 4px;
+    z-index: 10;
+    &:hover {
+      color: grey;
+    }
+  }
+}
+
+#pin-zone {
+  display: flex;
+  flex-flow: row wrap;
+  column-width: 320px;
+  margin: 1em;
+	column-gap: 15px;
+  width: 90%;
+	max-width: 1100px;
+  margin: 50px auto;
+  columns: 30% 3;
+  .single-pin {
+    background: #fefefe;
+    border: 2px solid #fcfcfc;
+    box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+    margin: 10px;
+    padding: 15px;
+    pointer-events: auto;
+    padding-bottom: 10px;
+    display: inline-block;
+    img {
+      width: 100%; height: auto;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 15px;
+      margin-bottom: 5px;
+    }
+    .card-title {
+      font-size: .9rem;
+      color: #444;
+      line-height: 1.5;
+    }
+  }
+}
+
+#single-board-button {
+  .close-board {
+    color: darkred;
+    font-size: 2em;
+    float: right;
+    margin-right: 20px;
+  }
+}
