@@ -6,3 +6,13 @@
   opacity: .4;
   transform: translate(-50%, -40%);
 }
+
+#board-name-radios {
+  margin: 2px auto;
+  padding: 4px;
+  columns: 30% 3;
+  #board-radio-inner {
+    margin: 4px 4px 4px 10px;
+    padding: 2px 2px 2px 10px;
+  }
+}
