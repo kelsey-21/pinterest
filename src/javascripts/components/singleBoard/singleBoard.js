@@ -148,8 +148,7 @@ const showSingleBoard = (boardId) => {
   const image = picture;
   smashData.getBoardNameForPins(boardId)
     .then((pins) => {
-      console.log(boardId);
-      let domString = '<div id="pin-zone" class="container">';
+      let domString = '<div id="pin-zone">';
       domString += `<div id="addNewPin" class="card single-pin add-single-pin" style="width: 18rem;">
           <div id="newpin-${boardId}" data-toggle="modal" data-target="#newPinModal" class="card-img-overlay"></div>
           <img src="${image}" class="card-img-top" alt="add-image" />
