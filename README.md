@@ -4,6 +4,9 @@
 Pinterest is an individual project that allows the user to create idea "boards" and create "pins" within each board.
 
 # Screenshots
+![](https://raw.githubusercontent.com/kelseycreel/pinterest/master/screenshots/Pinterest1.PNG)
+![](https://raw.githubusercontent.com/kelseycreel/pinterest/master/screenshots/Pinterest2.JPG)
+![](https://raw.githubusercontent.com/kelseycreel/pinterest/master/screenshots/Pinterest3.JPG)
 
 # How to run
 * clone down this project
